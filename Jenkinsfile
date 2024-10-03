@@ -16,16 +16,33 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    env.PATH = "/opt/homebrew/bin:${env.PATH}"  // Include the local path for Node.js
+                    // Ensure the environment has Node.js and Yarn
+                    env.PATH = "/opt/homebrew/bin:${env.PATH}"  // Include local path if needed
                 }
+                // Install npm dependencies
                 sh 'npm install'
+                // Check and install yarn if it's missing
+                sh '''
+                    if ! command -v yarn &> /dev/null
+                    then
+                        echo "Yarn not found. Installing..."
+                        npm install -g yarn
+                    fi
+                '''
             }
         }
 
-        
         stage('Build React App') {
             steps {
-                sh 'yarn build'
+                // If yarn exists, use it to build. Otherwise, fallback to npm run build
+                sh '''
+                    if command -v yarn &> /dev/null
+                    then
+                        yarn build
+                    else
+                        npm run build
+                    fi
+                '''
             }
         }
 
