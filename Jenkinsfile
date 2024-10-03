@@ -14,12 +14,13 @@ pipeline {
         }
         
         stage('Install Dependencies') {
-            steps {
+           steps {
                 script {
                     def nodejs = tool name: 'NodeJS 22', type: 'NodeJSInstallation'
+                    env.NODE_HOME = nodejs
                     env.PATH = "${nodejs}/bin:${env.PATH}"
                 }
-                sh 'yarn install'
+                sh 'npm install'
             }
         }
         
