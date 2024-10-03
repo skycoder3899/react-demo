@@ -6,23 +6,23 @@ pipeline {
         DOCKER_IMAGE = 'skycoder3899/react-demo'
     }
 
+    tools {
+        nodejs 'NodeJS 14'  // Specify NodeJS installation here
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/skycoder3899/react-demo.git', branch: 'main'
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
-                script {
-                    def nodejs = tool name: 'NodeJS 14', type: 'NodeJSInstallation'
-                    env.PATH = "${nodejs}/bin:${env.PATH}"
-                }
-                sh 'yarn install'
+                sh 'yarn install'  // No need to specify node path if tools is used
             }
         }
-        
+
         stage('Build React App') {
             steps {
                 sh 'yarn build'
