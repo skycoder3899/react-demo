@@ -3,13 +3,13 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE = 'yourdockerhubusername/react-demo'
+        DOCKER_IMAGE = 'skycoder3899/react-demo'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/yourusername/your-react-app.git', branch: 'main'
+                git url: 'https://github.com/skycoder3899/react-demo.git', branch: 'main'
             }
         }
         
