@@ -14,15 +14,14 @@ pipeline {
         }
         
         stage('Install Dependencies') {
-           steps {
+            steps {
                 script {
-                    def nodejs = tool name: 'NodeJS 22', type: 'NodeJSInstallation'
-                    env.NODE_HOME = nodejs
-                    env.PATH = "${nodejs}/bin:${env.PATH}"
+                    env.PATH = "/opt/homebrew/bin:${env.PATH}"  // Include the local path for Node.js
                 }
                 sh 'npm install'
             }
         }
+
         
         stage('Build React App') {
             steps {
