@@ -15,10 +15,13 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh 'npm cache clean --force' // Clean up the npm cache
-                sh 'rm -rf node_modules' // Clean up node_modules
+                script {
+                    // Ensure the environment has Node.js and Yarn
+                    env.PATH = "/opt/homebrew/bin:${env.PATH}"  // Include local path if needed
+                }
+                // Install npm dependencies
                 sh 'npm install'
-                sh 'npm audit fix --force' // Attempt to resolve vulnerabilities
+                // Check and install yarn if it's missing
                 sh '''
                     if ! command -v yarn &> /dev/null
                     then
